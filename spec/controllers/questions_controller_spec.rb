@@ -4,7 +4,7 @@ RSpec.describe QuestionsController, type: :controller do
   let(:question) { create(:question) }
 
   describe 'GET #index' do
-    let!(:questions) { create_list(:question, 3) } # bang(!) to initialize before each test
+    let(:questions) { create_list(:question, 3) }
 
     before { get :index }
 
@@ -124,6 +124,19 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
 
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:question) { create(:question) } # bang(!) to initialize before each test
+
+    it 'deletes the question' do
+      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    end
+
+    it 'redirects to index' do
+      delete :destroy, params: { id: question }
+      expect(response).to redirect_to questions_path
+    end
   end
 
 end
