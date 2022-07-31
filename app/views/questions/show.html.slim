@@ -1,3 +1,5 @@
+= render 'shared/errors', resource: @answer
+
 h1= @question.title
 p= @question.body
 
@@ -14,3 +16,10 @@ p= @question.body
 
 -else
   p No answers set for this question yet.
+
+p Answer
+= form_for @question.answers.new, url: question_answers_path(@question), method: :post, local: true do |f|
+  = f.label :body
+  = f.text_area :body
+
+  = f.submit 'Submit answer'
