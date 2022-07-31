@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :answer do
-    body { "MyText" }
-    references { "" }
+    body { "Answer_body" }
 
     trait :invalid do
       body { nil }
