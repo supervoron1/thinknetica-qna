@@ -13,6 +13,8 @@ p= @question.body
           tr
             td
               = answer.body
+            td
+              = link_to 'Delete answer', question_answer_path(answer.question, answer), method: :delete
 
 -else
   p No answers set for this question yet.

@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: %i[new create]
+  before_action :set_answer, only: %i[destroy]
 
   def new
     @answer = @question.answers.new
@@ -18,6 +19,11 @@ class AnswersController < ApplicationController
     end
   end
 
+  def destroy
+    @answer.destroy
+    redirect_to question_path(@answer.question), notice: 'Answer was successfully deleted'
+  end
+
   private
 
   def find_question
@@ -26,5 +32,9 @@ class AnswersController < ApplicationController
 
   def answer_params
     params.require(:answer).permit(:body)
+  end
+
+  def set_answer
+    @answer = Answer.find(params[:id])
   end
 end
