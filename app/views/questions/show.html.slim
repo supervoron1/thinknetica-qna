@@ -15,7 +15,7 @@ p= @question.body
               = answer.body
             td
               - if current_user&.author_of?(answer)
-                = link_to 'Delete answer', question_answer_path(answer.question, answer), method: :delete
+                = link_to 'Delete answer', answer, method: :delete
 
 -else
   p No answers set for this question yet.

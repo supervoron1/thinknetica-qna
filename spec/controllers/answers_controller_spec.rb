@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:user) { create(:user) }
-  let(:answer) { create(:answer) }
 
   describe 'POST #create' do
     before { login(user) }
@@ -39,8 +38,9 @@ RSpec.describe AnswersController, type: :controller do
     before { login(user) }
 
     context "answer's author" do
+      let!(:answer) { create(:answer, user: user) }
       it 'deletes the question' do
-        # expect { delete :destroy, params: { question_id: answer.question, id: answer } }.to change(user.answers, :count).by(-1)
+        expect { delete :destroy, params: { question_id: answer.question, id: answer } }.to change(Answer, :count).by(-1)
       end
 
       it 'redirects to index' do
@@ -50,6 +50,8 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context "not answer's author" do
+      let!(:answer) { create(:answer) }
+
       it "doesn't delete since it's not author's question" do
         answer.reload # todo: research why it's necessary
         expect { delete :destroy, params: { question_id: answer.question, id: answer } }.to_not change(Answer, :count)

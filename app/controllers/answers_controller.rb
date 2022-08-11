@@ -5,9 +5,8 @@ class AnswersController < ApplicationController
   before_action :check_owner, only: %i[destroy]
 
   def create
-    # @answer = @question.answers.create(answer_params)
-    @answer = current_user.answers.create(answer_params)
-    @answer.assign_attributes(question: @question)
+    @answer = current_user.answers.new(answer_params)
+    @answer.question = @question
 
     if @answer.save
       redirect_to @question
