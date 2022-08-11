@@ -30,13 +30,16 @@ feature 'User can delete answer', %q{
 
     scenario "deletes not his answer" do
       visit question_path(alien_question)
-      save_and_open_page
 
       expect(page).to have_no_link('Delete answer')
     end
   end
 
   describe 'Unauthenticated user' do
-    scenario "tries to delete answer"
+    scenario "tries to delete answer" do
+      visit question_path(question)
+
+      expect(page).to have_no_link('Delete answer')
+    end
   end
 end
