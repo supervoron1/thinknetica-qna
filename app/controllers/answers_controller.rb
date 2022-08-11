@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :find_question, only: %i[new create]
   before_action :set_answer, only: %i[destroy]
+  before_action :check_owner, only: %i[destroy]
 
   def create
     # @answer = @question.answers.create(answer_params)
@@ -32,5 +33,9 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.find(params[:id])
+  end
+
+  def check_owner
+    redirect_to question_path(@answer.question), alert: "You can't edit/delete someone else's answer" unless current_user.author_of?(@answer)
   end
 end
