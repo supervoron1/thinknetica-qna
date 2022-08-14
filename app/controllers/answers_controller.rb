@@ -10,8 +10,8 @@ class AnswersController < ApplicationController
 
     if @answer.save
       redirect_to @question
-    else
-      render 'questions/show'
+    # else
+    #   render 'questions/show'
     end
   end
 

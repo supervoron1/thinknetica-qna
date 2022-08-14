@@ -16,14 +16,14 @@ feature 'User can create answer to the question', %q{
       visit question_path(question)
     end
 
-    scenario 'answers to question' do
+    scenario 'answers to question', js: true do
       fill_in 'Body', with: 'answer answer!'
       click_on 'Submit answer'
 
       expect(page).to have_content 'answer answer!'
     end
 
-    scenario 'answers to question with errors' do
+    scenario 'answers to question with errors', js: true do
       fill_in 'Body', with: ''
       click_on 'Submit answer'
 
