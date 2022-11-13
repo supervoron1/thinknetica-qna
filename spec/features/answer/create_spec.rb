@@ -9,22 +9,25 @@ feature 'User can create answer to the question', %q{
   given(:user) { create(:user) }
   given(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
 
       visit question_path(question)
     end
 
-    scenario 'answers to question', js: true do
+    scenario 'answers to question' do
       fill_in 'Body', with: 'answer answer!'
       click_on 'Submit answer'
 
-      expect(page).to have_content 'answer answer!'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'answer answer!'
+      end
     end
 
-    scenario 'answers to question with errors', js: true do
-      fill_in 'Body', with: ''
+    scenario 'answers to question with errors' do
+      # fill_in 'Body', with: ''
       click_on 'Submit answer'
 
       expect(page).to have_content "Body can't be blank"
